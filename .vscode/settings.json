@@ -1,5 +1,9 @@
 {
     "robloxLsp.diagnostics.globals": [
-        "gethui"
+        "gethui",
+        "Drawing",
+        "setclipboard",
+        "getgenv",
+        "syn"
     ]
 }
