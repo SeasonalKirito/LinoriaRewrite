@@ -3185,6 +3185,7 @@ function Library:CreateWindow(...)
         local duration = Args.Duration or 3
         local titlesize = Args.TitleSize or 14
         local textsize = Args.TextSize or 12
+        local Centered = Args.Centered or false
     
         local PopupOuter = Library:Create('Frame', {
             BackgroundColor3 = Color3.new(0, 0, 0);
@@ -3211,10 +3212,10 @@ function Library:CreateWindow(...)
     
         Library:CreateLabel({
             Size = UDim2.new(1, -20, 0, 20);
-            Position = UDim2.new(0, 10, 0, 5);
+            Position = Centered and UDim2.new(0.5, -125, 0, 4) or UDim2.new(0, 10, 0, 4);
             Text = tostring(title); -- Ensure title is a string
             TextSize = titlesize;
-            TextXAlignment = Enum.TextXAlignment.Left;
+            TextXAlignment = Centered and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left;
             TextWrapped = true;
             ZIndex = 1002;
             Parent = PopupInner;
@@ -3224,8 +3225,8 @@ function Library:CreateWindow(...)
             BackgroundColor3 = Library.BackgroundColor;
             BorderColor3 = Library.OutlineColor;
             BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(1, -10, 0, 90); -- Further reduced height
-            Position = UDim2.new(0, 5, 0, 25);
+            Size = UDim2.new(1, -5, 0, 90); -- Further reduced height
+            Position = UDim2.new(0, 2.95, 0, 25);
             ZIndex = 1002;
             Parent = PopupInner;
         });
@@ -3844,6 +3845,7 @@ Window:Popup({
     Title = 'Sigma Title',
     Description = 'This is a example popup for the LinoriaRewrite because sea is a super sigma developer',
     Duration = 10,
-    TitleSize = 16, 
-    TextSize = 14
+    -- TitleSize = 16,
+    -- TextSize = 14,
+    -- Centered = true,
 })

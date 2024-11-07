@@ -1225,6 +1225,8 @@ do
             Library:SafeCallback(KeyPicker.Clicked, KeyPicker.Toggled)
         end
 
+        
+
         local Picking = false;
 
         PickOuter.InputBegan:Connect(function(Input)
@@ -3176,6 +3178,76 @@ function Library:CreateWindow(...)
     function Window:SetWindowTitle(Title)
         WindowLabel.Text = Title;
     end;
+
+    function Window:Popup(Args)
+        local title = Args.Title or "Title"
+        local text = Args.Description or "Description"
+        local duration = Args.Duration or 3
+        local titlesize = Args.TitleSize or 14
+        local textsize = Args.TextSize or 12
+        local Centered = Args.Centered or false
+    
+        local PopupOuter = Library:Create('Frame', {
+            BackgroundColor3 = Color3.new(0, 0, 0);
+            BorderSizePixel = 0;
+            Size = UDim2.new(0, 250, 0, 120); -- Reduced height
+            Position = UDim2.new(0.5, -125, 0.5, -60); -- Centered position
+            ZIndex = 1000;
+            Parent = self.Holder; -- Parent to the main GUI
+        });
+    
+        local PopupInner = Library:Create('Frame', {
+            BackgroundColor3 = Library.MainColor;
+            BorderColor3 = Library.OutlineColor;
+            BorderMode = Enum.BorderMode.Inset;
+            Size = UDim2.new(1, 0, 1, 0);
+            ZIndex = 1001;
+            Parent = PopupOuter;
+        });
+    
+        Library:AddToRegistry(PopupInner, {
+            BackgroundColor3 = 'MainColor';
+            BorderColor3 = 'OutlineColor';
+        });
+    
+        Library:CreateLabel({
+            Size = UDim2.new(1, -20, 0, 20);
+            Position = Centered and UDim2.new(0.5, -125, 0, 4) or UDim2.new(0, 10, 0, 4);
+            Text = tostring(title); -- Ensure title is a string
+            TextSize = titlesize;
+            TextXAlignment = Centered and Enum.TextXAlignment.Center or Enum.TextXAlignment.Left;
+            TextWrapped = true;
+            ZIndex = 1002;
+            Parent = PopupInner;
+        });
+    
+        local TextBox = Library:Create('Frame', {
+            BackgroundColor3 = Library.BackgroundColor;
+            BorderColor3 = Library.OutlineColor;
+            BorderMode = Enum.BorderMode.Inset;
+            Size = UDim2.new(1, -5, 0, 90); -- Further reduced height
+            Position = UDim2.new(0, 2.95, 0, 25);
+            ZIndex = 1002;
+            Parent = PopupInner;
+        });
+    
+        Library:CreateLabel({
+            Size = UDim2.new(1, -20, 1, -20); -- Adjusted size for padding
+            Position = UDim2.new(0, 10, 0, 10); -- Adjusted position for padding
+            Text = tostring(text); -- Ensure text is a string
+            TextSize = textsize; -- Smaller text size
+            TextXAlignment = Enum.TextXAlignment.Left; -- Align text to the left
+            TextYAlignment = Enum.TextYAlignment.Top; -- Align text to the top
+            TextWrapped = true;
+            ZIndex = 1002;
+            Parent = TextBox; -- Parent to TextBox to ensure proper positioning
+        });
+    
+        task.spawn(function()
+            task.wait(duration);
+            PopupOuter:Destroy();
+        end);
+    end
 
     function Window:AddTab(Name)
         local Tab = {
