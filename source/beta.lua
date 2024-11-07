@@ -1225,6 +1225,8 @@ do
             Library:SafeCallback(KeyPicker.Clicked, KeyPicker.Toggled)
         end
 
+        
+
         local Picking = false;
 
         PickOuter.InputBegan:Connect(function(Input)
@@ -3769,3 +3771,36 @@ TestingBox:AddToggle('MyToggle', {
 --     Size = 12
 -- })
 
+TestingBox:AddLabel('Keybind'):AddKeyPicker('KeyPicker', {
+    -- SyncToggleState only works with toggles.
+    -- It allows you to make a keybind which has its state synced with its parent toggle
+
+    -- Example: Keybind which you use to toggle flyhack, etc.
+    -- Changing the toggle disables the keybind state and toggling the keybind switches the toggle state
+
+    Default = 'MB2', -- String as the name of the keybind (MB1, MB2 for mouse buttons)
+    SyncToggleState = false,
+
+
+    -- You can define custom Modes but I have never had a use for it.
+    Mode = 'Toggle', -- Modes: Always, Toggle, Hold
+
+    Text = 'Auto lockpick safes', -- Text to display in the keybind menu
+    NoUI = false, -- Set to true if you want to hide from the Keybind menu,
+
+    -- Occurs when the keybind is clicked, Value is `true`/`false`
+    Callback = function(Value)
+        print('[cb] Keybind clicked!', Value)
+    end,
+
+    -- Occurs when the keybind itself is changed, `New` is a KeyCode Enum OR a UserInputType Enum
+    ChangedCallback = function(New)
+        print('[cb] Keybind changed!', New)
+    end
+})
+
+-- OnClick is only fired when you press the keybind and the mode is Toggle
+-- Otherwise, you will have to use Keybind:GetState()
+Options.KeyPicker:OnClick(function()
+    Options.KeyPicker:GetState()
+end)
