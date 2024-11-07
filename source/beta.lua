@@ -3762,16 +3762,10 @@ TestingBox:AddToggle('MyToggle', {
     end
 })
 
-TestingBox:AddConsole('MyConsole')
+-- TestingBox:AddConsole('MyConsole')
+-- Options.MyConsole:AddLog({
+--     Text = 'White Text',
+--     Color = Color3.fromRGB(255, 255, 255),
+--     Size = 12
+-- })
 
-Options.MyConsole:AddLog({
-    Text = 'White Text',
-    Color = Color3.fromRGB(255, 255, 255),
-    Size = 14
-})
-task.wait(2.5)
-Options.MyConsole:AddLog({
-    Text = 'Black Text',
-    Color = Color3.fromRGB(0, 0, 0),
-    Size = 5
-})

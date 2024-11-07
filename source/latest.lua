@@ -2769,7 +2769,7 @@ do
                 Font = Library.Font;
                 Text = Info.Text;
                 TextColor3 = Info.Color or Library.FontColor;
-                TextSize = Info.Size or 11;
+                TextSize = Info.Size or 12;
                 TextXAlignment = Enum.TextXAlignment.Left;
                 TextYAlignment = Enum.TextYAlignment.Top;
                 ZIndex = 8;

@@ -4,6 +4,7 @@
         "Drawing",
         "setclipboard",
         "getgenv",
-        "syn"
+        "syn",
+        "protectgui"
     ]
 }
