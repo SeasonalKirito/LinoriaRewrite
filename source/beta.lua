@@ -2769,7 +2769,7 @@ do
                 Font = Library.Font;
                 Text = Info.Text;
                 TextColor3 = Info.Color or Library.FontColor;
-                TextSize = Info.Size or 11;
+                TextSize = Info.Size or 12;
                 TextXAlignment = Enum.TextXAlignment.Left;
                 TextYAlignment = Enum.TextYAlignment.Top;
                 ZIndex = 8;
@@ -3742,11 +3742,6 @@ getgenv().Library = Library
 --return Library
 
 local Window = Library:CreateWindow({
-    -- Set Center to true if you want the menu to appear in the center
-    -- Set AutoShow to true if you want the menu to appear when it is created
-    -- Position and Size are also valid options here
-    -- but you do not need to define them unless you are changing them :)
-
     Title = 'Beta Testing',
     Center = true,
     AutoShow = true,
@@ -3771,10 +3766,12 @@ TestingBox:AddConsole('MyConsole')
 
 Options.MyConsole:AddLog({
     Text = 'White Text',
-    Color = Color3.fromRGB(255, 255, 255)
+    Color = Color3.fromRGB(255, 255, 255),
+    Size = 14
 })
 task.wait(2.5)
 Options.MyConsole:AddLog({
     Text = 'Black Text',
-    Color = Color3.fromRGB(0, 0, 0)
+    Color = Color3.fromRGB(0, 0, 0),
+    Size = 5
 })
