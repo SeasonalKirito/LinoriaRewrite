@@ -3843,5 +3843,7 @@ TestingBox:AddToggle('MyToggle', {
 Window:Popup({
     Title = 'Sigma Title',
     Description = 'This is a example popup for the LinoriaRewrite because sea is a super sigma developer',
-    Duration = 10
+    Duration = 10,
+    TitleSize = 16, 
+    TextSize = 14
 })
