@@ -1818,141 +1818,140 @@ do
 
     function Funcs:AddToggle(Idx, Info)
         assert(Info.Text, 'AddInput: Missing `Text` string.')
-
+    
         local Toggle = {
-            Value = Info.Default or false;
-            Type = 'Toggle';
-
-            Callback = Info.Callback or function(Value) end;
+            Value = Info.Default or false,
+            Type = 'Toggle',
+            Callback = Info.Callback or function(Value) end,
             Addons = {},
             Risky = Info.Risky,
-        };
-
-        local Groupbox = self;
-        local Container = Groupbox.Container;
-
+        }
+    
+        local Groupbox = self
+        local Container = Groupbox.Container
+    
         local ToggleOuter = Library:Create('Frame', {
-            BackgroundColor3 = Color3.new(0, 0, 0);
-            BorderColor3 = Color3.new(0, 0, 0);
-            Size = UDim2.new(0, 13, 0, 13);
-            ZIndex = 5;
-            Parent = Container;
-        });
-
+            BackgroundColor3 = Color3.new(0, 0, 0),
+            BorderColor3 = Color3.new(0, 0, 0),
+            Size = UDim2.new(0, 13, 0, 13),
+            ZIndex = 5,
+            Parent = Container
+        })
+    
         Library:AddToRegistry(ToggleOuter, {
-            BorderColor3 = 'Black';
-        });
-
+            BorderColor3 = 'Black'
+        })
+    
         local ToggleInner = Library:Create('Frame', {
-            BackgroundColor3 = Library.MainColor;
-            BorderColor3 = Library.OutlineColor;
-            BorderMode = Enum.BorderMode.Inset;
-            Size = UDim2.new(1, 0, 1, 0);
-            ZIndex = 6;
-            Parent = ToggleOuter;
-        });
-
+            BackgroundColor3 = Library.MainColor,
+            BorderColor3 = Library.OutlineColor,
+            BorderMode = Enum.BorderMode.Inset,
+            Size = UDim2.new(1, 0, 1, 0),
+            ZIndex = 6,
+            Parent = ToggleOuter
+        })
+    
         Library:AddToRegistry(ToggleInner, {
-            BackgroundColor3 = 'MainColor';
-            BorderColor3 = 'OutlineColor';
-        });
-
+            BackgroundColor3 = 'MainColor',
+            BorderColor3 = 'OutlineColor'
+        })
+    
         local ToggleLabel = Library:CreateLabel({
-            Size = UDim2.new(0, 216, 1, 0);
-            Position = UDim2.new(1, 6, 0, 0);
-            TextSize = 14;
-            Text = Info.Text;
-            TextXAlignment = Enum.TextXAlignment.Left;
-            ZIndex = 6;
-            Parent = ToggleInner;
-        });
-
+            Size = UDim2.new(0, 216, 1, 0),
+            Position = UDim2.new(1, 6, 0, 0),
+            TextSize = 14,
+            Text = Info.Text,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            ZIndex = 6,
+            Parent = ToggleInner
+        })
+    
         Library:Create('UIListLayout', {
-            Padding = UDim.new(0, 4);
-            FillDirection = Enum.FillDirection.Horizontal;
-            HorizontalAlignment = Enum.HorizontalAlignment.Right;
-            SortOrder = Enum.SortOrder.LayoutOrder;
-            Parent = ToggleLabel;
-        });
-
+            Padding = UDim.new(0, 4),
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Right,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Parent = ToggleLabel
+        })
+    
         local ToggleRegion = Library:Create('Frame', {
-            BackgroundTransparency = 1;
-            Size = UDim2.new(0, 170, 1, 0);
-            ZIndex = 8;
-            Parent = ToggleOuter;
-        });
-
+            BackgroundTransparency = 1,
+            Size = UDim2.new(0, 170, 1, 0),
+            ZIndex = 8,
+            Parent = ToggleOuter
+        })
+    
         Library:OnHighlight(ToggleRegion, ToggleOuter,
             { BorderColor3 = 'AccentColor' },
             { BorderColor3 = 'Black' }
-        );
-
+        )
+    
         function Toggle:UpdateColors()
-            Toggle:Display();
-        end;
-
+            Toggle:Display()
+        end
+    
         if type(Info.Tooltip) == 'string' then
             Library:AddToolTip(Info.Tooltip, ToggleRegion)
         end
-
+    
         function Toggle:Display()
-            ToggleInner.BackgroundColor3 = Toggle.Value and Library.AccentColor or Library.MainColor;
-            ToggleInner.BorderColor3 = Toggle.Value and Library.AccentColorDark or Library.OutlineColor;
-
-            Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = Toggle.Value and 'AccentColor' or 'MainColor';
-            Library.RegistryMap[ToggleInner].Properties.BorderColor3 = Toggle.Value and 'AccentColorDark' or 'OutlineColor';
-        end;
-
+            ToggleInner.BackgroundColor3 = Toggle.Value and Library.AccentColor or Library.MainColor
+            ToggleInner.BorderColor3 = Toggle.Value and Library.AccentColorDark or Library.OutlineColor
+    
+            Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = Toggle.Value and 'AccentColor' or 'MainColor'
+            Library.RegistryMap[ToggleInner].Properties.BorderColor3 = Toggle.Value and 'AccentColorDark' or 'OutlineColor'
+        end
+    
         function Toggle:OnChanged(Func)
-            Toggle.Changed = Func;
-            Func(Toggle.Value);
-        end;
-
+            Toggle.Changed = Func
+            Func(Toggle.Value)
+        end
+    
         function Toggle:SetValue(Bool)
-            Bool = (not not Bool);
-
-            Toggle.Value = Bool;
-            Toggle:Display();
-
+            Bool = (not not Bool)
+    
+            Toggle.Value = Bool
+            Toggle:Display()
+    
             for _, Addon in next, Toggle.Addons do
                 if Addon.Type == 'KeyPicker' and Addon.SyncToggleState then
                     Addon.Toggled = Bool
                     Addon:Update()
                 end
             end
-
-            Library:SafeCallback(Toggle.Callback, Toggle.Value);
-            Library:SafeCallback(Toggle.Changed, Toggle.Value);
-            Library:UpdateDependencyBoxes();
-        end;
-
+    
+            Library:SafeCallback(Toggle.Callback, Toggle.Value)
+            Library:SafeCallback(Toggle.Changed, Toggle.Value)
+            Library:UpdateDependencyBoxes()
+        end
+    
         ToggleRegion.InputBegan:Connect(function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
-                Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
-                Library:AttemptSave();
-            end;
-        end);
-
+                Toggle:SetValue(not Toggle.Value)
+                Library:AttemptSave()
+            end
+        end)
+    
         if Toggle.Risky then
             Library:RemoveFromRegistry(ToggleLabel)
             ToggleLabel.TextColor3 = Library.RiskColor
             Library:AddToRegistry(ToggleLabel, { TextColor3 = 'RiskColor' })
         end
-
-        Toggle:Display();
-        Groupbox:AddBlank(Info.BlankSize or 5 + 2);
-        Groupbox:Resize();
-
-        Toggle.TextLabel = ToggleLabel;
-        Toggle.Container = Container;
-        setmetatable(Toggle, BaseAddons);
-
-        Toggles[Idx] = Toggle;
-
-        Library:UpdateDependencyBoxes();
-
-        return Toggle;
-    end;
+    
+        Toggle:Display()
+        Groupbox:AddBlank(Info.BlankSize or 5 + 2)
+        Groupbox:Resize()
+    
+        Toggle.TextLabel = ToggleLabel
+        Toggle.Container = Container
+        setmetatable(Toggle, BaseAddons)
+    
+        Toggles[Idx] = Toggle
+    
+        Library:UpdateDependencyBoxes()
+    
+        return Toggle
+    end
 
     function Funcs:AddSlider(Idx, Info)
         assert(Info.Default, 'AddSlider: Missing default value.');
@@ -2793,6 +2792,110 @@ do
         return Console;
     end;
 
+    function Funcs:AddFolder(Idx, Info)
+        local Folder = {
+            IsOpen = false,
+            Elements = {}
+        }
+    
+        local Groupbox = self
+        local Container = Groupbox.Container
+    
+        local FolderOuter = Library:Create('Frame', {
+            BackgroundColor3 = Color3.new(0, 0, 0),
+            BorderColor3 = Color3.new(0, 0, 0),
+            Size = UDim2.new(1, -4, 0, 20),
+            ZIndex = 5,
+            Parent = Container
+        })
+    
+        Library:AddToRegistry(FolderOuter, {
+            BorderColor3 = 'Black'
+        })
+    
+        local FolderInner = Library:Create('Frame', {
+            BackgroundColor3 = Library.MainColor,
+            BorderColor3 = Library.OutlineColor,
+            BorderMode = Enum.BorderMode.Inset,
+            Size = UDim2.new(1, 0, 1, 0),
+            ZIndex = 6,
+            Parent = FolderOuter
+        })
+    
+        Library:AddToRegistry(FolderInner, {
+            BackgroundColor3 = 'MainColor',
+            BorderColor3 = 'OutlineColor'
+        })
+    
+        local FolderLabel = Library:CreateLabel({
+            Size = UDim2.new(1, -20, 1, 0),
+            Position = UDim2.new(0, 20, 0, 0),
+            TextSize = 14,
+            Text = Info.Name or 'Folder',
+            TextXAlignment = Enum.TextXAlignment.Left,
+            ZIndex = 7,
+            Parent = FolderInner
+        })
+    
+        local ToggleButton = Library:Create('TextButton', {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(0, 20, 1, 0),
+            Text = '+',
+            TextColor3 = Library.FontColor,
+            TextSize = 14,
+            ZIndex = 7,
+            Parent = FolderInner
+        })
+    
+        local ContentsFrame = Library:Create('Frame', {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 0),
+            Position = UDim2.new(0, 0, 1, 0),
+            Visible = false,
+            ZIndex = 6,
+            Parent = FolderOuter
+        })
+    
+        local Layout = Library:Create('UIListLayout', {
+            FillDirection = Enum.FillDirection.Vertical,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Parent = ContentsFrame
+        })
+    
+        function Folder:Toggle()
+            self.IsOpen = not self.IsOpen
+            ToggleButton.Text = self.IsOpen and '-' or '+'
+            ContentsFrame.Visible = self.IsOpen
+            Groupbox:Resize()
+        end
+    
+        function Folder:Resize()
+            ContentsFrame.Size = UDim2.new(1, 0, 0, Layout.AbsoluteContentSize.Y)
+            Groupbox:Resize()
+        end
+    
+        ToggleButton.MouseButton1Click:Connect(function()
+            Folder:Toggle()
+        end)
+    
+        function Folder:AddElement(Element)
+            Element.Parent = ContentsFrame
+            table.insert(self.Elements, Element)
+            self:Resize()
+        end
+    
+        Layout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+            Folder:Resize()
+        end)
+    
+        Groupbox:AddBlank(5)
+        Groupbox:Resize()
+    
+        Options[Idx] = Folder
+    
+        return Folder
+    end
+
     BaseGroupbox.__index = Funcs;
     BaseGroupbox.__namecall = function(Table, Key, ...)
         return Funcs[Key](...);
@@ -3198,7 +3301,7 @@ function Library:CreateWindow(...)
     
         local PopupInner = Library:Create('Frame', {
             BackgroundColor3 = Library.MainColor;
-            BorderColor3 = Library.OutlineColor;
+            BorderColor3 = Library.AccentColor;
             BorderMode = Enum.BorderMode.Inset;
             Size = UDim2.new(1, 0, 1, 0);
             ZIndex = 1001;
@@ -3841,11 +3944,25 @@ TestingBox:AddToggle('MyToggle', {
 --     Size = 12
 -- })
 
-Window:Popup({
-    Title = 'Sigma Title',
-    Description = 'This is a example popup for the LinoriaRewrite because sea is a super sigma developer',
-    Duration = 10,
-    -- TitleSize = 16,
-    -- TextSize = 14,
-    -- Centered = true,
+-- Window:Popup({
+--     Title = 'Sigma Title',
+--     Description = 'This is a example popup for the LinoriaRewrite because sea is a super sigma developer',
+--     Duration = 10,
+--     -- TitleSize = 16,
+--     -- TextSize = 14,
+--     -- Centered = true,
+-- })
+
+local myFolder = TestingBox:AddFolder("folder1", { Name = "My Folder" })
+
+local toggleElement = TestingBox:AddToggle('MyToggle', {
+    Text = 'This is a toggle',
+    Default = true, -- Default value (true / false)
+    Tooltip = 'This is a tooltip', -- Information shown when you hover over the toggle
+
+    Callback = function(Value)
+        print('[cb] MyToggle changed to:', Value)
+    end
 })
+
+myFolder:AddElement(toggleElement)
